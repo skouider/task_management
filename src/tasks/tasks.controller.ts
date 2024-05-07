@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { Task } from './task.model';
 
@@ -11,6 +18,10 @@ export class TasksController {
     return this.taskService.createTask(task);
   }
 
+  @Get()
+  getAll() {
+    return this.taskService.getAllTasks();
+  }
   // @Get()
   // getTasks(@Query(ValidationPipe) filterDto: GetTasksFilterDto): Task[] {
   //   if (Object.keys(filterDto).length) {
@@ -27,7 +38,7 @@ export class TasksController {
   // }
 
   @Get('/:id')
-  findById(@Param('id') id: string) {
+  getTaskById(@Param('id', ParseIntPipe) id: number): Promise<Task> {
     return this.taskService.getTaskById(id);
   }
   // O
